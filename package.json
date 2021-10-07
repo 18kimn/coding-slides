@@ -1,0 +1,17 @@
+{
+  "name": "tidy-review",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^2.6.0"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "reveal-run-in-terminal": "^1.0.5",
+    "reveal.js": "^4.1.3"
+  }
+}
