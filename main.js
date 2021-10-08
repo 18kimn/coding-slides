@@ -1,10 +1,12 @@
-import './style.css'
-import Reveal from 'reveal.js'
-import Markdown from 'reveal.js/plugin/markdown/markdown.esm'
-import Highlight from 'reveal.js/plugin/highlight/highlight.esm'
+import './ui/styles/style.css'
+import deck from './ui/src/deck'
+import useR from './ui/src/r-block.js'
+import verify from './ui/src/creds'
 
-let deck = new Reveal({
-  plugins: [Markdown, Highlight],
-})
+const main = async () => {
+  await deck.initialize({center: false})
+  const isVerified = await verify
+  useR(isVerified)
+}
 
-deck.initialize({center: false})
+main()
