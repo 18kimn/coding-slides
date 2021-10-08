@@ -1,107 +1,85 @@
-# Motivation: why tidy
+# premise
 
-handling data in R is ...bad... sometimes
+- Slides are super useful and a preservable resource, but they can be a little
+  dry
+  - "Freirian" vs "banking" teaching styles
+- Slides should be dynamic
+  - in the sense that they should be able to change
+  - in the sense that students should be able to interact with them
+- For teachers of code it's annoying / doesn't make sense to separate the code
+  window from the teaching window
 
-<br/>
+---
 
-```r
-mtcars$newcol <- mtcars$mpg * mtcars$cyl
-mtcars["newcol"] <- mtcars["mpg"] * mtcars["cyl"]
-```
+# The idea
+
+An interactive text editor that is able to run code (here, R code), from within
+a slide
+
 <div class = "run-r"></div>
 
-<br/>
+---
 
-- Why do we have to write "mtcars" so many times?
-- How do you say this in English?
-- Why are there two syhmbols for the same thing?
-- Why do you have to quote it in one context and unquote it in another?
+# how it works
+
+1. When `yarn start` is run:
+
+   - `nodemon` starts up a server on port 3100 that refreshes on file changes
+   - `vite` starts up a UI platform on port 3000 that refreshes on file changes
+
+2. When the home page is visited, credentials checking begins
+
+   - input element + submit button + onSubmit() handler
+   - compares to a environment variable
+   - seems kind of dangerous to run code like this, especially if this makes its
+     way online, so this credentials mechanism was my prototype solution
 
 ---
 
-# Then: Hadley Wickham
+# how it works (cont.)
 
-<div class="img-container">
-  <img src="hadley.jpg" />
-</div>
+3. When credentials are checked, code editing is enabled/disabled
 
----
+   - if it's skipped or diabled then nothing happens
+   - if it's enabled, then a `<textarea />` div is put in, plus a submit button
 
-# Then: Hadley Wickham and his 2014 paper
+4. When the textarea things are submitted, the api runs the code
 
-<div class="img-container">
-  <img src="tidy-paper.png" />
-</div>
+   - the UI process on port 3000 submits it to the api process on port 3100
+   - the api process saves it as an R code file and runs it
+   - the api process sends the output back to the client (the ui process on
+     port 3000)
 
-[accessible here](https://vita.had.co.nz/papers/tidy-data.pdf)
+5. when the UI receives a response, it creates an output div and shoves the code
+   in there
 
----
+In sum, conceptually: 
 
-# An extension: tidy _code_ too
-
-- Tidy data is important, but for data scientists it's almost impossible to have
-  tidy data without tidy code
-- What kind of logic can we have with code to make it more human-readable?
-
-Enter dplyr and ggplot2: a "grammar of data manipulation" and a "grammar of graphics"
-
---- 
-
-# Basic ideas: dplyr
-
-- Six verbs
-  - `mutate, select, filter, summarize, arrange`
-- one adverb: `group_by`
-- Usually one "subject": your dataset
-
-To code in regular R, you need to know code.
-
-To code in dplyr R, you need to know english.
+- both a UI process and a server process are started 
+- this is normally dangerous, but yea..
+- They interact with fetch(), or a GET request
 
 ---
 
-# Comparison: dplyr
+# next steps
 
-*Task*: From the `iris` dataset of flowers, find which species of color has the longest average petal width.
+<div class = "run-r"></div>
 
-Without dplyr:
-```r
-avg_widths <- NULL
-names(avg_widths) <- unique(iris$Species)
-for(species in unique(iris$Species)){
-  species_data <- iris[iris$Species == species,]
-  avg_widths <- mean(species_data$Petal.Width)
-}
-
-max(avg_widths)
-
-max(tapply(iris$Petal.Width, iris$Species, mean))
-```
-
-<br />
-
-With:
-
-```r
-iris %>%
-  group_by(Species) %>%
-  summarize(avg_petal_width = mean(Petal.Width)) %>% 
-  arrange(avg_petal_width)
-
-```
+- syntax highlighting for the textarea
+  - some projects sort of do live/realtime highlighting, like Prism Live, but i
+    couldn't get them to work
+- better security / stable version for online release
+  - right now, must be run on localhost
+- Vueify/Reactify this
+- other languages
 
 ---
 
-# Basic ideas: 
+# Thank you!
 
+Other links
 
----
-
-
----
-
-# Summary
-
-- By providing a conceptual framework where all code has its own sensible place, you 
-
-
+- Revealjs (slides): https://revealjs.com/api/
+- Express (server): https://expressjs.com/
+- Vite (UI tooling): https://vitejs.com
+- This repository: https://github.com/18kimn/tidy-review

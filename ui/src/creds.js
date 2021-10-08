@@ -9,6 +9,7 @@ const verify = new Promise((resolve) => {
   const credsDiv = document.querySelector('#creds')
   // if it does put in an input element
   const input = credsDiv.appendChild(document.createElement('input'))
+  input.type = 'password'
 
   // and an associated submit button
   const submit = credsDiv.appendChild(document.createElement('input'))

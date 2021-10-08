@@ -5,7 +5,7 @@ import {promises as fs} from 'fs'
 
 const app = express()
 app.use(cors())
-app.listen(3600, () => console.log(`Server is listening on port 3600`))
+app.listen(3100, () => console.log(`Server is listening on port 3600`))
 
 app.get('/', async (req, res) => {
   const {data} = req.query

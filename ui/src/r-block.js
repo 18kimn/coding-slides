@@ -5,7 +5,7 @@ const sourceR = async (input) => {
   const body = new URLSearchParams({
     data: encodeURIComponent(input),
   }).toString()
-  const consoleResult = await fetch(`http://localhost:3600/?${body}`).then(
+  const consoleResult = await fetch(`http://localhost:3100/?${body}`).then(
     (res) => res.text(),
   )
   return consoleResult
