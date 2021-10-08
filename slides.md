@@ -1,3 +1,12 @@
+# The idea
+
+An interactive text editor that is able to run code (here, R code), from within
+a slide
+
+<div class = "run-r"></div>
+
+---
+
 # premise
 
 - Slides are super useful and a preservable resource, but they can be a little
@@ -9,14 +18,8 @@
 - For teachers of code it's annoying / doesn't make sense to separate the code
   window from the teaching window
 
----
-
-# The idea
-
-An interactive text editor that is able to run code (here, R code), from within
-a slide
-
-<div class = "run-r"></div>
+- i was asked by a professor for a class I'm a ULA (teaching assistant) for to
+  do a presentation on some new R libraries that the class was learning
 
 ---
 
@@ -53,9 +56,9 @@ a slide
 5. when the UI receives a response, it creates an output div and shoves the code
    in there
 
-In sum, conceptually: 
+In sum, conceptually:
 
-- both a UI process and a server process are started 
+- both a UI process and a server process are started
 - this is normally dangerous, but yea..
 - They interact with fetch(), or a GET request
 
@@ -68,6 +71,8 @@ In sum, conceptually:
 - syntax highlighting for the textarea
   - some projects sort of do live/realtime highlighting, like Prism Live, but i
     couldn't get them to work
+- UI improvements in general 
+  - submit button styling, show/hide animation
 - better security / stable version for online release
   - right now, must be run on localhost
 - Vueify/Reactify this
