@@ -2,10 +2,9 @@
   "name": "tidy-review",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "serve": "nodemon server/index.js --exec babel-node --presets babel-preset-env",
-    "start": "yarn serve & vite"
+    "server": "nodemon server/index.js --exec babel-node --presets babel-preset-env",
+    "ui": "vite",
+    "start": "yarn server & yarn ui"
   },
   "devDependencies": {
     "nodemon": "^2.0.13",
