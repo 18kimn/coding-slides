@@ -3,7 +3,7 @@
 An interactive text editor that is able to run code (here, R code), from within
 a slide
 
-<div class = "run-r"></div>
+<div class = "run-code"></div>
 
 ---
 
@@ -66,7 +66,7 @@ In sum, conceptually:
 
 # next steps
 
-<div class = "run-r"></div>
+<div class = "run-code"></div>
 
 - syntax highlighting for the textarea
   - some projects sort of do live/realtime highlighting, like Prism Live, but i

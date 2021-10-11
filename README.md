@@ -1,4 +1,4 @@
-# freirian slides for code
+# coding-slides
 
 ### Intro
 

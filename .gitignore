@@ -6,4 +6,7 @@ dist-ssr
 
 .env
 
-server/script.R
+server/script*
+
+# misc junk 
+debug.log
