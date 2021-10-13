@@ -18,6 +18,7 @@ export default {
       const codeDiv = slide.querySelector('.run-code')
       if (!codeDiv) return
       const existingTextarea = slide.querySelector('.code-editor')
+      console.log("asdfasdfasfd")
       if (codeDiv && !existingTextarea) {
         createApp(CodeBlock, { isVerified: vm.isVerified, language: codeDiv.dataset.language }).mount(codeDiv)
       }

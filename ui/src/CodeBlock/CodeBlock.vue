@@ -1,7 +1,10 @@
 <template>
   <div v-if="isVerified" class="container">
     <div ref="editor" id="code-editor"></div>
-    <input type="submit" value="run" class="code-submit" v-on:click="onSubmit" />
+    <div class="code-submit" v-on:click="onSubmit">
+      <span style="margin-right: 0.5em; font-size: 0.7em">run</span>
+      <Icon icon="mdi:play-circle-outline" style="color: #6acb52; width: 0.7em; height: 0.7em" />
+    </div>
     <div v-if="result" class="code-output">{{ result }}</div>
   </div>
 </template>
@@ -12,9 +15,9 @@ import { toRefs } from '@vue/reactivity'
 import { basicSetup, EditorState, EditorView } from '@codemirror/basic-setup'
 import { keymap } from '@codemirror/view'
 import { Compartment } from '@codemirror/state'
-import { javascript } from '@codemirror/lang-javascript'
 import { indentWithTab } from '@codemirror/commands'
 import { StreamLanguage } from '@codemirror/stream-parser'
+import { Icon } from '@iconify/vue'
 import languages from './languages'
 
 const props = defineProps({
@@ -26,10 +29,14 @@ const result = ref(0)
 const code = ref('')
 const editor = ref(null)
 
-const langCompartment = new Compartment
+const langCompartment = new Compartment()
 const state = EditorState.create({
   doc: 'type some code here',
-  extensions: [basicSetup, keymap.of([indentWithTab]), langCompartment.of(javascript())],
+  extensions: [
+    basicSetup,
+    keymap.of([indentWithTab]),
+    langCompartment.of(StreamLanguage.define(languages[language.value])),
+  ],
 })
 const view = ref(null)
 
@@ -38,10 +45,13 @@ const view = ref(null)
 //     extensions: [basicSetup, StreamLanguage.define(lua)]
 //   })
 // })
+
 onMounted(() => {
   view.value = new EditorView({ state: state, parent: editor.value })
   view.value.dispatch({
-    effects: langCompartment.reconfigure(StreamLanguage.define(languages[language.value]))
+    effects: langCompartment.reconfigure(
+      StreamLanguage.define(languages[language.value]),
+    ),
   })
 })
 
@@ -65,19 +75,10 @@ const fetchExec = async (input, language) => {
 
 const onSubmit = async () => {
   result.value = await fetchExec(code.value, language.value)
-  console.log(result.value)
-  console.log(view.value.state.doc.toString())
 }
 </script>
 
 <style>
-.run-code {
-  margin: var(--r-block-margin) auto;
-  width: 90%;
-  display: flex;
-  flex-direction: column;
-}
-
 .run-code {
   margin: var(--r-block-margin) auto;
   width: 90%;
@@ -102,7 +103,16 @@ const onSubmit = async () => {
 }
 
 .code-submit {
-  width: 50px;
+  font-family: Fira Code;
+  display: flex;
+  flex-direction: row;
+  background: #e0e0e0;
+  width: fit-content;
+  align-items: center;
+  padding: 0.2em 0.5em;
+  border-radius: 2px;
+  cursor: pointer;
+  margin-top: 0.5em;
 }
 
 .code-output {
