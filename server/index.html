@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>coding-slides backend</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Fira+Code&family=Lato:ital,wght@0,400;0,700;1,400&display=swap');
+
+      html,
+      body {
+        font-family: Lato;
+        max-width: 70ch;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>welcome to the <code>coding-slides</code> backend!</h1>
+    <div id="overview">
+      <h3>Overview</h3>
+      <p>
+        This is a super simple API for educators. It provides access to a simple
+        server resource to run code interactively online. The main intention is
+        to be used in slides, as described
+        <a target="_blank" href="https://github.com/18kimn/coding-slides"
+          >here</a
+        >, but it can also be used for teaching APIs, in other web apps besides
+        Reveal.js slides, or in general just as an experimental playground for
+        running code. Currently supports R, python3, and nodeJS.
+      </p>
+      <p>
+        This API is hosted on a single AWS EC2 instance, which is a virtual machine
+        running Ubuntu that simply runs the given code and sends it back to the
+        client. This is dangerous sort of by nature, and although I have
+        restricted the permissions of the API to be unable to create or destroy
+        files, it's possible that the server may be misused. Also, because this
+        is running on a single EC2 t2-micro machine, I'm predicting the capacity
+        will be fairly low and it will break with any real usage. All of that to
+        say, please be courteous and kind, only use this API for your own slides
+        and quick demos, and don't run anything intensive or dangerous here. :)
+      </p>
+    </div>
+    <div id="usage">
+      <h3>Usage</h3>
+      <ul>
+        Endpoints:
+        <li><code>/</code> (the root): this page, an intro to the backend</li>
+        <li>
+          <code>/src</code> : the main endpoint to run an execute scripts.
+          Receives <code>GET</code> requests; returns <code>stdout</code> and
+          <code>stderror</code> as strings.
+          <ul>
+            Query options:
+            <li>
+              <code>data</code> : A URI-encoded string representing the code to
+              run
+            </li>
+            <li>
+              <code>languageEngine</code> : The name of an executable script to
+              use to run the code input. Currently the only supported options
+              are <code> Rscript, python3, </code> and <code> node</code>.
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div id="misc">
+      <h3>Misc.</h3>
+
+      Contact nathan.kim@yale.edu with any questions.
+    </div>
+  </body>
+</html>

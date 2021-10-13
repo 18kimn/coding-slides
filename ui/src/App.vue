@@ -1,17 +1,14 @@
 <script>
-import '../styles/style.css'
 import Reveal from 'reveal.js'
 import Markdown from 'reveal.js/plugin/markdown/markdown.esm'
 import Highlight from 'reveal.js/plugin/highlight/highlight.esm'
-import CodeBlock from './CodeBlock.vue'
+import CodeBlock from './CodeBlock/CodeBlock.vue'
 import Creds from './Creds.vue'
 import { createApp } from 'vue'
 
-// import useR from './code-block.js'
-// import verify from './creds'
-
 export default {
   mounted() {
+    const vm = this
     Reveal.initialize({
       plugins: [Markdown, Highlight],
       center: false
@@ -19,14 +16,15 @@ export default {
     Reveal.on('slidechanged', () => {
       const slide = Reveal.getCurrentSlide()
       const codeDiv = slide.querySelector('.run-code')
+      if (!codeDiv) return
       const existingTextarea = slide.querySelector('.code-editor')
-      if(codeDiv && !existingTextarea) {
-        createApp(CodeBlock, {isVerified: this.isVerified}).mount(codeDiv)
+      if (codeDiv && !existingTextarea) {
+        createApp(CodeBlock, { isVerified: vm.isVerified, language: codeDiv.dataset.language }).mount(codeDiv)
       }
     })
   },
-  data() {
-    return {isVerified: false}
+  data() { // set isVerified: false if you'd like interactive verification
+    return { isVerified: true }
   },
   components: { CodeBlock, Creds }
 }
@@ -38,8 +36,8 @@ export default {
       <section class="center" id="titleslide">
         <h1>interactive code editing in slides</h1>
         <p>Nathan Kim</p>
-        <CodeBlock v-bind:isVerified="isVerified" />
-        <Creds @verified="isVerified = true"/>
+        <!-- uncomment the below line to have a verification box -->
+        <!-- <Creds @verified="isVerified = true" /> -->
       </section>
       <section data-markdown="./ui/slides.md" data-separator="---"></section>
     </div>
@@ -133,5 +131,12 @@ p {
 
 .reveal .slides section::-webkit-scrollbar {
   display: none;
+}
+
+#titleslide {
+  width: 100%;
+  display: flex !important;
+  flex-direction: column;
+  place-items: center;
 }
 </style>

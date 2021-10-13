@@ -3,7 +3,7 @@
 An interactive text editor that is able to run code (here, R code), from within
 a slide
 
-<div class = "run-code"></div>
+<div class = "run-code" data-language="Rscript"></div>
 
 ---
 
@@ -11,7 +11,7 @@ a slide
 
 - Slides are super useful and a preservable resource, but they can be a little
   dry
-  - "Freirian" vs "banking" teaching styles
+- "Freirian" vs "banking" teaching styles
 - Slides should be dynamic
   - in the sense that they should be able to change
   - in the sense that students should be able to interact with them
@@ -71,7 +71,7 @@ In sum, conceptually:
 - syntax highlighting for the textarea
   - some projects sort of do live/realtime highlighting, like Prism Live, but i
     couldn't get them to work
-- UI improvements in general 
+- UI improvements in general
   - submit button styling, show/hide animation
 - better security / stable version for online release
   - right now, must be run on localhost
