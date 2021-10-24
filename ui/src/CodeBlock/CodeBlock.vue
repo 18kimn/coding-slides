@@ -1,5 +1,17 @@
 <template>
   <div v-if="isVerified" class="container">
+    <div v-on:click="shouldShowList = !shouldShowList" class="language-picker">{{ language }}</div>
+    <div
+      class="language-picker menu"
+      v-if="shouldShowList"
+      v-on:click-outside="shouldShowList = false"
+    >
+      <div
+        class="languages"
+        v-for="(_, lang) in languages"
+        v-on:click="language = lang; shouldShowList = false"
+      >{{ lang }}</div>
+    </div>
     <div ref="editor" id="code-editor"></div>
     <div class="code-submit" v-on:click="onSubmit">
       <span style="margin-right: 0.5em; font-size: 0.7em">run</span>
@@ -10,7 +22,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { watchEffect, ref, onMounted } from 'vue'
 import { toRefs } from '@vue/reactivity'
 import { basicSetup, EditorState, EditorView } from '@codemirror/basic-setup'
 import { keymap } from '@codemirror/view'
@@ -19,15 +31,17 @@ import { indentWithTab } from '@codemirror/commands'
 import { StreamLanguage } from '@codemirror/stream-parser'
 import { Icon } from '@iconify/vue'
 import languages from './languages'
+import Reveal from 'reveal.js'
 
 const props = defineProps({
   isVerified: Boolean,
-  language: String,
+  defaultLanguage: String,
 })
-const { isVerified, language } = toRefs(props)
+const { isVerified, defaultLanguage } = toRefs(props)
+const language = ref(defaultLanguage.value)
 const result = ref(0)
-const code = ref('')
 const editor = ref(null)
+const shouldShowList = ref(false)
 
 const langCompartment = new Compartment()
 const state = EditorState.create({
@@ -40,14 +54,14 @@ const state = EditorState.create({
 })
 const view = ref(null)
 
-// let view = new EditorView({
-//   state: EditorState.create({
-//     extensions: [basicSetup, StreamLanguage.define(lua)]
-//   })
-// })
-
 onMounted(() => {
   view.value = new EditorView({ state: state, parent: editor.value })
+  const slide = Reveal.getCurrentSlide()
+  slide.addEventListener('click', () => console.log("asdfasdfasdfa"))
+})
+
+watchEffect(() => {
+  if (!view.value) return
   view.value.dispatch({
     effects: langCompartment.reconfigure(
       StreamLanguage.define(languages[language.value]),
@@ -55,27 +69,23 @@ onMounted(() => {
   })
 })
 
-const fetchExec = async (input, language) => {
-  // view: the Vue state object
-  // value: the current value of the state, which is the CodeMirror editor
+const onSubmit = async () => {
+  // view: the Vue state object for the editor
+  // value: the current value of the state
   // state: CodeMirror's state object
   // doc: an object representing the currently typed input into the state
-  console.log(isVerified.value)
   const body = new URLSearchParams({
     data: encodeURIComponent(view.value.state.doc.toString()),
-    languageEngine: encodeURIComponent(language),
+    languageEngine: encodeURIComponent(language.value),
   }).toString()
 
   const consoleResult =
     process.env.NODE_ENV === 'development'
       ? await fetch(`http://localhost:3100/src/?${body}`)
       : await fetch(`http://18.189.132.155/src/?${body}`)
-  return consoleResult.text()
+  result.value = await consoleResult.text()
 }
 
-const onSubmit = async () => {
-  result.value = await fetchExec(code.value, language.value)
-}
 </script>
 
 <style>
@@ -99,6 +109,30 @@ const onSubmit = async () => {
 }
 
 #code-editor::-webkit-scrollbar {
+  display: none;
+}
+
+.language-picker {
+  width: fit-content;
+  font-family: "Fira Code";
+  font-size: 0.7em;
+  background: #f3f9ff;
+  padding: 0.5em 1em;
+  border-radius: 5px 5px 0 0;
+  cursor: pointer;
+}
+
+.language-picker.menu {
+  border-radius: 0;
+  position: absolute;
+  max-height: 10em;
+  z-index: 5;
+  overflow: auto;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.language-picker.menu::-webkit-scrollbar {
   display: none;
 }
 

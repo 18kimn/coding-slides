@@ -18,9 +18,8 @@ export default {
       const codeDiv = slide.querySelector('.run-code')
       if (!codeDiv) return
       const existingTextarea = slide.querySelector('.code-editor')
-      console.log("asdfasdfasfd")
       if (codeDiv && !existingTextarea) {
-        createApp(CodeBlock, { isVerified: vm.isVerified, language: codeDiv.dataset.language }).mount(codeDiv)
+        createApp(CodeBlock, { isVerified: vm.isVerified, defaultLanguage: codeDiv.dataset.language }).mount(codeDiv)
       }
     })
   },
@@ -124,7 +123,7 @@ p {
 }
 
 .reveal .slides section {
-  max-height: 100%;
+  height: 100%;
   overflow: auto;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */

@@ -1,90 +1,44 @@
-# The idea
+# premise
 
-An interactive text editor that is able to run code (here, R code), from within
-a slide
+- slides are useful, but boring
+- they're especially boring and especially useful for code
+  - coding requires just learning a lot of things, but it's _so boring_
+- on a less trivial note it's not good to just throw information at students
 
-<div class = "run-code" data-language="Rscript"></div>
+coding should be interactive, engaging, dynamic... that's how coding becomes the
+magic we know it to be!
 
 ---
 
-# premise
+# the idea
 
-- Slides are super useful and a preservable resource, but they can be a little
-  dry
-- "Freirian" vs "banking" teaching styles
-- Slides should be dynamic
-  - in the sense that they should be able to change
-  - in the sense that students should be able to interact with them
-- For teachers of code it's annoying / doesn't make sense to separate the code
-  window from the teaching window
+an interactive editor inside of slides! check it out:
 
-- i was asked by a professor for a class I'm a ULA (teaching assistant) for to
-  do a presentation on some new R libraries that the class was learning
+<div class = "run-code" data-language="Rscript"></div>
+
+Teachers can run code and write without switching in and out of slides. Students
+can play with it too.
+
+Features syntax highlighting, multiple languages (sort of), prefill-ability,
+autocomplete (sort of).
 
 ---
 
 # how it works
 
-1. When `yarn start` is run:
+Currently on the development version:
 
-   - `nodemon` starts up a server on port 3100 that refreshes on file changes
-   - `vite` starts up a UI platform on port 3000 that refreshes on file changes
+- when `yarn start` is run
+  - UI process starts on port 3000
+  - server process starts on port 3100
+- when a command is entered
+  - UI sends a GET request to port 3100
+  - port 3100 takes the script as the "data" parameter, writes it to a file,
+    runs it, sends it back
+- when response is received, UI displays it
 
-2. When the home page is visited, credentials checking begins
+# goal/next steps
 
-   - input element + submit button + onSubmit() handler
-   - compares to a environment variable
-   - seems kind of dangerous to run code like this, especially if this makes its
-     way online, so this credentials mechanism was my prototype solution
-
----
-
-# how it works (cont.)
-
-3. When credentials are checked, code editing is enabled/disabled
-
-   - if it's skipped or diabled then nothing happens
-   - if it's enabled, then a `<textarea />` div is put in, plus a submit button
-
-4. When the textarea things are submitted, the api runs the code
-
-   - the UI process on port 3000 submits it to the api process on port 3100
-   - the api process saves it as an R code file and runs it
-   - the api process sends the output back to the client (the ui process on
-     port 3000)
-
-5. when the UI receives a response, it creates an output div and shoves the code
-   in there
-
-In sum, conceptually:
-
-- both a UI process and a server process are started
-- this is normally dangerous, but yea..
-- They interact with fetch(), or a GET request
-
----
-
-# next steps
-
-<div class = "run-code"></div>
-
-- syntax highlighting for the textarea
-  - some projects sort of do live/realtime highlighting, like Prism Live, but i
-    couldn't get them to work
-- UI improvements in general
-  - submit button styling, show/hide animation
-- better security / stable version for online release
-  - right now, must be run on localhost
-- Vueify/Reactify this
-- other languages
-
----
-
-# Thank you!
-
-Other links
-
-- Revealjs (slides): https://revealjs.com/api/
-- Express (server): https://expressjs.com/
-- Vite (UI tooling): https://vitejs.com
-- This repository: https://github.com/18kimn/tidy-review
+- aesthetic fixes
+- this shouldn't need to be run on localhost; currently working on AWS lambda
+  functions to process requests
