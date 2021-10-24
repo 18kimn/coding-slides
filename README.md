@@ -15,12 +15,11 @@ Teaching code through slide presentations takes a lot of that creativity away,
 becuase slides are often just static, shove-it-in-your-students'-brains types of
 resources. It shouldn't be that way.
 
-This repository provides a simple tooling kit to make R code run interactively
-in slides. It is meant to be a resource that instructors can clone and then
-modify to fit their own teaching needs, extending and modifying the features I
-thought of to fit their own needs. But within all of those diverse needs, I hope
-the need for dynamic, interactive, (even _Freirian_ , as in Paulo Freire)
-teaching resources shines through.
+This repository provides a simple tooling kit to make code run interactively in
+slides. It is meant to be a resource that instructors can clone and then modify
+to fit their own teaching needs, extending and modifying the features I thought
+of to fit their own needs. But within all of those diverse needs, I hope the
+need for dynamic, interactive teaching resources shines through.
 
 ### Quickstart
 
@@ -39,24 +38,19 @@ slides.
 The slides are created through the Reveal.js framework. Upon running
 `yarn start`, a server process on port 3100 starts up (handled by nodemon
 tooling over an express api) and a UI process starts up on port 3000 (handled by
-Vite). When the password is submitted to the website, the UI process checks it
-against an environment variable. This is not necessarily secure, as the `VITE_`
-prefix means that the key will be bundled inside the UI code sent to the server
-(I'm working on this part). If the password matches the environment variable
-key, then live code editing is enabled -- from this point on, the UI will
-populate relevant slides with `<textarea />` divs and submit buttons for
-interactive/live code.
+Vite).
 
 Upon submitting, the UI process sends a GET request through the `fetch` API to
-the API process. The API process saves the submitted text as an R code file
-(specifically `server/script.R`) and then runs that file with the `exec` module.
+the API process. The API process saves the submitted text as a plaintext file
+(specifically `server/script`) and then runs that file with the `exec` module.
 Output is then sent back to the UI process, and the UI process throws it into an
 output div.
 
 An important note is that all of this means the live code can only be used on a
-local machine. I'm currently trying ot figur
+local machine. I'm currently trying ot figure out how to run this through an AWS
+lambda function, so that it can just be deployed as a website forever.
 
-Some tips on ediitng:
+Some tips on editing:
 
 - The slide content itself can be edited inside `ui/slides.md`. Format follows
   general markdown rules plus Reveal.js implementation.
