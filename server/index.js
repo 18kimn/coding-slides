@@ -28,6 +28,7 @@ app.get('/src', async (req, res) => {
 
   exec(languageEngine + ' server/script', (err, stdout, stderr) => {
     const result = stdout || stderr
+    console.log(result)
     res.send(result)
   })
 })

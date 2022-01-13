@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isVerified" class="container">
+  <div class="container">
     <div v-on:click="shouldShowList = !shouldShowList" class="language-picker">{{ language }}</div>
     <div
       class="language-picker menu"
@@ -34,10 +34,9 @@ import languages from './languages'
 import Reveal from 'reveal.js'
 
 const props = defineProps({
-  isVerified: Boolean,
   defaultLanguage: String,
 })
-const { isVerified, defaultLanguage } = toRefs(props)
+const { defaultLanguage } = toRefs(props)
 const language = ref(defaultLanguage.value)
 const result = ref(0)
 const editor = ref(null)
@@ -81,7 +80,7 @@ const onSubmit = async () => {
 
   const consoleResult =
     process.env.NODE_ENV === 'development'
-      ? await fetch(`http://localhost:3100/src/?${body}`)
+      ? await fetch(`http://localhost:3010/src/?${body}`)
       : await fetch(`http://18.189.132.155/src/?${body}`)
   result.value = await consoleResult.text()
 }

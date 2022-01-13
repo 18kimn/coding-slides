@@ -5,16 +5,17 @@
   - coding requires just learning a lot of things, but it's _so boring_
 - on a less trivial note it's not good to just throw information at students
 
-coding should be interactive, engaging, dynamic... that's how coding becomes the
-magic we know it to be!
+coding should be interactive, engaging, dynamic
+
+Learning code isn't separable from running code
 
 ---
 
 # the idea
 
-an interactive editor inside of slides! check it out:
+an interactive editor inside of slides:
 
-<div class = "run-code" data-language="Rscript"></div>
+<div class = "run-code" data-language="Rscript"/>
 
 Teachers can run code and write without switching in and out of slides. Students
 can play with it too.
@@ -30,15 +31,18 @@ Currently on the development version:
 
 - when `yarn start` is run
   - UI process starts on port 3000
-  - server process starts on port 3100
+    - slides themselves are made with reveal.js
+  - server process starts on port 3010
 - when a command is entered
-  - UI sends a GET request to port 3100
-  - port 3100 takes the script as the "data" parameter, writes it to a file,
+  - UI sends a GET request to port 3010
+  - port 3010 takes the script as the "data" parameter, writes it to a file,
     runs it, sends it back
 - when response is received, UI displays it
+
+---
 
 # goal/next steps
 
 - aesthetic fixes
-- this shouldn't need to be run on localhost; currently working on AWS lambda
-  functions to process requests
+- language support
+- AWS lambda setup (so it doesn't have to run on localhost)

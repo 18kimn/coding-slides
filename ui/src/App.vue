@@ -1,14 +1,25 @@
+<template>
+  <div class="reveal">
+    <div class="slides">
+      <section class="center" id="titleslide">
+        <h1>interactive code editing in slides</h1>
+        <p>Nathan Kim</p>
+      </section>
+      <section data-markdown="./ui/slides.md" data-separator="---"></section>
+    </div>
+  </div>
+</template>
+
 <script>
 import Reveal from 'reveal.js'
 import Markdown from 'reveal.js/plugin/markdown/markdown.esm'
 import Highlight from 'reveal.js/plugin/highlight/highlight.esm'
 import CodeBlock from './CodeBlock/CodeBlock.vue'
 import Creds from './Creds.vue'
-import { createApp } from 'vue'
+import { createApp, } from 'vue'
 
 export default {
   mounted() {
-    const vm = this
     Reveal.initialize({
       plugins: [Markdown, Highlight],
       center: false
@@ -16,10 +27,11 @@ export default {
     Reveal.on('slidechanged', () => {
       const slide = Reveal.getCurrentSlide()
       const codeDiv = slide.querySelector('.run-code')
+      console.log({slide, codeDiv})
       if (!codeDiv) return
       const existingTextarea = slide.querySelector('.code-editor')
       if (codeDiv && !existingTextarea) {
-        createApp(CodeBlock, { isVerified: vm.isVerified, defaultLanguage: codeDiv.dataset.language }).mount(codeDiv)
+        createApp(CodeBlock, { defaultLanguage: codeDiv.dataset.language }).mount(codeDiv)
       }
     })
   },
@@ -29,20 +41,6 @@ export default {
   components: { CodeBlock, Creds }
 }
 </script>
-
-<template>
-  <div class="reveal">
-    <div class="slides">
-      <section class="center" id="titleslide">
-        <h1>interactive code editing in slides</h1>
-        <p>Nathan Kim</p>
-        <!-- uncomment the below line to have a verification box -->
-        <!-- <Creds @verified="isVerified = true" /> -->
-      </section>
-      <section data-markdown="./ui/slides.md" data-separator="---"></section>
-    </div>
-  </div>
-</template>
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Fira+Code&family=Lato:ital,wght@0,400;0,700;1,400&display=swap");
@@ -127,6 +125,8 @@ p {
   overflow: auto;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+  display: flex;
+  place-content: center;
 }
 
 .reveal .slides section::-webkit-scrollbar {

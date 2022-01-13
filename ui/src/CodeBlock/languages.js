@@ -3,11 +3,9 @@ import {lua} from '@codemirror/legacy-modes/mode/lua'
 import {r} from '@codemirror/legacy-modes/mode/r'
 import {python} from '@codemirror/legacy-modes/mode/python'
 import {shell} from '@codemirror/legacy-modes/mode/shell'
-import {css} from '@codemirror/legacy-modes/mode/css'
 import {sql} from '@codemirror/legacy-modes/mode/sql'
 import {
   javascript,
-  json,
   typescript,
 } from '@codemirror/legacy-modes/mode/javascript'
 
@@ -27,7 +25,7 @@ const languages = {
   lua,
   bash: shell,
   // html,
-  css,
+  // css,
   sql,
 }
 

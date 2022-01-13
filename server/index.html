@@ -30,15 +30,10 @@
         running code. Currently supports R, python3, and nodeJS.
       </p>
       <p>
-        This API is hosted on a single AWS EC2 instance, which is a virtual machine
-        running Ubuntu that simply runs the given code and sends it back to the
-        client. This is dangerous sort of by nature, and although I have
-        restricted the permissions of the API to be unable to create or destroy
-        files, it's possible that the server may be misused. Also, because this
-        is running on a single EC2 t2-micro machine, I'm predicting the capacity
-        will be fairly low and it will break with any real usage. All of that to
-        say, please be courteous and kind, only use this API for your own slides
-        and quick demos, and don't run anything intensive or dangerous here. :)
+        This API is (or eventually will be) served via a AWS Lambda function,
+        run out of my own pocket. Please be courteous and
+        kind, only use this API for your own slides and quick demos, and don't
+        run anything intensive or dangerous here. :)
       </p>
     </div>
     <div id="usage">
